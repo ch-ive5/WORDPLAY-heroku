@@ -1,0 +1,7 @@
+.DS_Store
+.idea/
+__pycache__/
+venv/
+study_database_a.py
+study_database_b.py
+todo.txt

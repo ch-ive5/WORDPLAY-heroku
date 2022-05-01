@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    {% include "head.html" %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='all.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='query_page.css') }}">
+
+    <style>
+
+        body {
+            background-color: hsl(86, 100%, 70%);
+        }
+
+        .blend-color {
+            color: hsl(86, 100%, 10%);
+        }
+
+        #random-button, #calculate-button {
+            border: 4px solid hsl(86, 100%, 30%);
+            background-color: hsl(86, 100%, 10%);
+            color: hsl(86, 100%, 70%);
+        }
+        #calculate-button:hover, #calculate-button:active, #calculate-button:focus, #random-button:hover, #random-button:active, #random-button:focus{
+            border: 4px solid hsl(180, 100%, 30%);
+            background-color: hsl(180, 100%, 10%);
+            color: hsl(180, 100%, 70%);
+        }
+
+        textarea {
+            background-color: hsl(180, 100%, 65%);
+            border: 4px solid hsl(86, 100%, 30%);
+        }
+        textarea:focus {
+            border: 4px solid hsl(180, 100%, 30%);
+        }
+        ::placeholder {
+            color: hsl(86, 100%, 22%);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    {% include "menu.html" %}
+
+    <div class="main-container">
+
+        <img id="img-logo" alt="WORD PLAY" src="{{ url_for('static', filename='logo_green.png') }}">
+        <h4 class="subtitle blend-color">Find surprising opposites.</h4>
+
+            <table>
+
+                <tr><td class="rand-text" colspan="2"><a href="{{ url_for('opposite_random') }}"><button id="random-button">
+                    <span>I</span><span>'</span><span>m </span><span>f</span><span>e</span><span>e</span><span>l</span><span>i</span><span>n</span><span>g </span><span>r</span><span>a</span><span>n</span><span>d</span><span>o</span><span>m</span><span>.</span>
+                </button></a></td></tr>
+
+                <form action="{{ url_for('opposite_result') }}" method="get" enctype="multipart/form-data">
+                    <tr>
+                        <td class="table-col-left"><label class="blend-color">WORD:</label></td>
+                        <td class="table-col-right"><textarea autofocus spellcheck="false" name="word" placeholder="i.e. juggling" rows="1" wrap="off">{{ source }}</textarea></td>
+                    </tr>
+                    <tr><td class="table-col-center" colspan="2"><input id="calculate-button" type="submit" name="" value="FIND OPPOSITE"></td></tr>
+                </form>
+
+            </table>
+
+        <div id="error"><h4>{{ error }}</h4></div>
+
+    </div>
+
+    <canvas id="loading-animation" style="width: 100px; display: none; position: fixed; touch-action: none; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%)">Your browser does not support the canvas element.</canvas>
+
+</body>
+
+<script src="{{ url_for('static', filename='menu.js') }}"></script>
+<script src="{{ url_for('static', filename='query_page.js') }}"></script>
+<script src="{{ url_for('static', filename='loading_animation.js') }}"></script>
+
+</html>

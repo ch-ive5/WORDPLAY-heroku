@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    {% include "head.html" %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='all.css') }}">
+
+    <style>
+
+        body {
+            background-color: hsl(86, 100%, 70%);
+        }
+
+        .top-header {
+            text-align: center;
+            padding: 1.5em;
+        }
+        .blend-color {
+            color: hsl(86, 100%, 15%);
+            font-weight: normal;
+        }
+        .smaller {
+            font-size: 0.7em;
+            font-family: 'roboto_light', sans-serif;
+        }
+
+        hr {
+            margin: 0;
+            border: 1px solid white;
+        }
+
+        div.synset-info {
+            background-color: hsl(135, 100%, 85%);
+            width: 100%;
+        }
+        div.synset-info:hover {
+            background-color: hsl(86, 100%, 95%);
+        }
+        div.synset-info a {
+            text-decoration: none;
+        }
+        div.anchor-div {
+            display: block;
+        }
+        .anchor-div p {
+            padding: 2em 4em;
+            margin: 0;
+        }
+        span.gloss {
+            color: black;
+            font-size: 1em;
+            font-family: 'roboto_light', sans-serif;
+        }
+        span.pos-words {
+            font-size: 1.3em;
+            color: black;
+        }
+        span.pos-words em {
+            color: hsl(86, 100%, 20%);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    {% include "menu.html" %}
+
+    <div class="top-header">
+        <h1><span class="blend-color"><span class="smaller">Choose a meaning for </span>"</span>{{ source }}<span class="blend-color">"</span></h1>
+    </div>
+
+    <hr>
+    {% for synset in synsets %}
+    <div class="synset-info"><a href="{{ url_for('opposite_result') }}?synset={{ synset }}&word={{ source }}"><div class="anchor-div"><p>
+        <span class="pos-words"><em>{{ synsets[synset]['pos'] }}</em> {{ synsets[synset]['key_words'] }}<em> | </em></span>
+        <span class="gloss">{{ synsets[synset]['gloss'] }}</span>
+    </p></div></a></div>
+    <hr>
+    {% endfor %}
+
+    <canvas id="loading-animation" style="width: 100px; display: none; position: fixed; touch-action: none; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%)">Your browser does not support the canvas element.</canvas>
+    
+</body>
+
+<script src="{{ url_for('static', filename='menu.js') }}"></script>
+<script src="{{ url_for('static', filename='loading_animation.js') }}"></script>
+
+</html>

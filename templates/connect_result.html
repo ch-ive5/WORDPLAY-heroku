@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    {% include "head.html" %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='all.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='results_page.css') }}">
+    
+</head>
+
+<body>
+
+    {% include "menu.html" %}
+
+    <table>
+
+        <colgroup>
+            <col span="1" style="width: 30%">
+            <col span="1" style="width: 70%">
+        </colgroup>
+
+        <tr><td class="top-header" colspan="2">
+            <h1><span>{{ source }} </span><img class="arrow-img" alt="" src="{{ url_for('static', filename='arrow-down.png') }}"><span> {{ target }}</span></h1>
+            <h3 class="blend-color"><em>{{ info }}</em></h3>
+        </td></tr>
+
+        {% for path in paths %}
+
+        <tr class="path-heading"><td colspan="2">path through <span style="color: {{ paths[path][0]['color_a'] }}">{{ paths[path][(paths[path]|length / 2)|int]['key_words'][0] }}</span></td></tr>
+
+        {% for node in paths[path] %}
+
+        <tr style="background-color: {{ node['color_a'] }}">
+
+            <td class="key-words">{{ node['key_words'][0] }}</td>
+
+            {% if node['two_kw'] %}
+            <td rowspan="3" class="synset-info">
+            {% else %}
+            <td rowspan="1" class="synset-info">
+            {% endif %}
+                <p class="pos-words"><em style="color: {{ node['color_c'] }}">{{ node['pos'] }}</em> {{ node['other_words'] }}</p>
+                <p class="gloss">{{ node['gloss'] }}</p>
+            </td>
+
+        </tr>
+
+        {% if node['two_kw'] %}
+        <tr style="background-color: {{ node['color_a'] }}"><td class="arrows" style="color: {{ node['color_c'] }}"><img class="arrow-img" alt="" src="{{ url_for('static', filename='arrow-down.png') }}"></td></tr>
+        <tr style="background-color: {{ node['color_a'] }}"><td class="key-words">{{ node['key_words'][1] }}</td></tr>
+        {% endif %}
+
+        {% if node['pointer_phrase'] != "(end marker)" %}
+        <tr style="background-color: {{ node['color_b'] }}">
+            <td class="arrows" style="color: {{ node['color_c'] }}"><img class="arrow-img" alt="" src="{{ url_for('static', filename='arrow-down.png') }}"></td>
+            <td class="pos-words" style="color: {{ node['color_c'] }}"><em>{{ node['pointer_phrase'] }}</em></td>
+        </tr>
+        {% endif %}
+
+        {% endfor %}
+
+        {% endfor %}
+
+    </table>
+    
+</body>
+
+<script src="{{ url_for('static', filename='menu.js') }}"></script>
+
+</html>

@@ -1,0 +1,9 @@
+
+<div id="menu-bar">
+    <div class="menu-items"><a class="{{ tab_classes['connect'] }}" href="{{ url_for('connect') }}">CONNECTIONS</a><a class="{{ tab_classes['opposite'] }}" href="{{ url_for('opposite') }}">OPPOSITES</a><a class="{{ tab_classes['about'] }}" href="{{ url_for('about') }}">ABOUT</a></div>
+</div>
+
+<div id="menu-button">
+    <img id="menu-button-closed-img" alt="" src="{{ url_for('static', filename='menu-button-closed.png') }}">
+    <img id="menu-button-open-img" alt="" src="{{ url_for('static', filename='menu-button-open.png') }}">
+</div>

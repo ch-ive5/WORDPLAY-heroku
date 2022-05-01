@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    {% include "head.html" %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='all.css') }}">
+
+    <style>
+
+        body {
+            background-color: hsl(180, 100%, 80%);
+        }
+
+        .heading {
+            margin: 0.6em 0;
+            text-align: center;
+        }
+        .heading h1 {
+            color: hsl(130, 100%, 0%);
+            font-size: min(2em, 7vw);
+        }
+        .heading {
+            padding-top: 3em;
+            padding-bottom: 3em;
+        }
+        .heading, .text-container {
+            padding-left: max(2em, 10vw);
+            padding-right: max(2em, 10vw);
+        }
+        .text-container {
+            background-color: hsl(180, 100%, 40%);
+            padding-top: 1.5em;
+            padding-bottom: 1.5em;
+        }
+        #img-logo, .heading h1 {
+            display: inline;
+            vertical-align: middle;
+        }
+        #img-logo {
+            width: 23em;
+            max-width: 100%;
+        }
+
+        p {
+            color: hsl(180, 100%, 5%);
+            font-family: 'roboto_light', sans-serif;
+        }
+        p a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        p a:hover, p a:active, p a:focus {
+            color: hsl(86, 100%, 60%);
+        }
+
+    </style>
+    
+</head>
+
+<body>
+
+    {% include "menu.html" %}
+
+    <div class="heading">
+        <h1>about </h1><a href="{{ url_for('connect') }}"><img id="img-logo" alt="WORD PLAY" src="{{ url_for('static', filename='logo_blue.png') }}"></a>
+    </div>
+
+    <div class="text-container">
+        <p>This project is built on the concept of synonym-like relationships between words, and explores the large-scale structure that results from a sufficiently large, interconnected word network. I started this project hoping to find that most words could be connected to most other words via a synonymic path, hopping from word to word across the network. I was inspired by the concept of <a target="_blank" href="https://en.wikipedia.org/wiki/Six_degrees_of_separation">six degrees of separation</a>, as well as other derivative projects such as <a target="_blank" href="https://www.sixdegreesofwikipedia.com/">Six Degrees of Wikipedia</a>.</p>
+        <p>Words, definitions, and pointers have been sourced from <a target="_blank" href="https://wordnet.princeton.edu/">WordNet</a>, a database of English words from Princeton. WordNet's database is a collection of delimited text files which group words of similar meaning together into <em>synsets</em>, and indicate various relationship types between synsets such as hypernyms (i.e. <em>a hamburger</em> is a type of <em>sandwich</em>) and entailments (i.e. <em>dreaming</em> is always done while <em>sleeping</em>). When referencing "words" in the database, it should be noted that collocations (e.g. "fountain pen" or "take in") have also been included.</p>
+        <p>I downloaded the WordNet database files and parsed them into data structures that I could manipulate with Python. Paths are found via a breadth-first search which iterates alternately from each endpoint. WordNet has made explicit some connection types which have an inverse (such as holonyms and meronyms). However other inverse connection types that are not explicitly present in WordNet can be inferred (such as cause/effect relationships), so these have been added. I also added a new connection type called a "word-pivot". Word-pivots allow connections between different meanings if the meanings share a common word (i.e. <em>pound</em> can refer to a weight and a currency).</p>
+        <p>WordNet contains over 147-thousand words, and of the over 21-billion possible start/target endpoint combinations, there exists a path for over 98% of them. Any two words might have an infinite number of possible paths between them, however, the set of paths with the fewest number of steps is finite and well-defined. So when I refer to "paths", I mean all paths of the shortest length. A <a href="{{ url_for('connect_random') }}">random pair of word endpoints</a> has an average path length between 7 and 8, and between more commonly-used words, paths are often shorter. Path lengths greater than 10 occur for just 2% of word endpoints, about as scarce as having no path at all. The longest paths are 21 synsets long, one of the few being between the words <a href="{{ url_for('connect_result') }}?source=flightless&target=self-sustained"><em>flightless</em> and <em>self-sustained</em></a>.</p>
+        <p>Almost all of the synsets are interconnected and form the main group within the database. However, there is a small percentage of synsets that are isolated from the main group and form island clusters. Synsets within these island clusters have very few connections if any. Island clusters are made up of 1 to 7 synsets, and have no connections outside of this. These exceptional cases often reveal missing connections in the corners of the database. For example, the word <em>unverified</em> is in one of these island clusters, and is connected to just a few other words such as <em>unproved</em>; it is not connected to any words in the main group of the database including the word <em>untested</em>. In the future, I would like to continue working on the database, and account for some of these more obvious missing connections.</p>
+        <p>With the ability to <a href="{{ url_for('connect') }}">find paths</a> between distant words, there are a lot of directions to go from here. The first expansion I've added is <a href="{{ url_for('opposite') }}">finding "quasi-opposites"</a>. Even though a word doesn't have an established antonym relationship, my code can look for the nearest words that do have direct antonyms. These next of kin antonym relationships sometimes make good sense, are often abstract, or occasionally unconvincing, but on the whole amusing.</p>
+        <p>I'm not a linguist, nor do I vouch for WordNet's data. The scope of this project encompasses connections within the WordNet database, not language in general. I understood the database as a 117-thousand vertex, 14-billion edge, higher-dimensional directed graph. If the words in the network were replaced with other abstract symbols, and if those symbols had no intrinsic meaning of their own, the network remains an interesting mathematical object to study. If anything, I hope this project helps to demonstrate that for similar systems of symbols and connections, the network can be complex enough to encode meaning, which can emerge from the connections themselves rather than being required as a fundamental building block.</p>
+        <p><a target="_blank" href="https://jpenn.herokuapp.com/">Check out some of my other projects.</a></p>
+    </div>
+
+</body>
+
+<script src="{{ url_for('static', filename='menu.js') }}"></script>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    {% include "head.html" %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='all.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='results_page.css') }}">
+
+</head>
+
+<body>
+
+    {% include "menu.html" %}
+    
+    <table>
+
+        <colgroup>
+            <col span="1" style="width: 30%">
+            <col span="1" style="width: 70%">
+        </colgroup>
+
+        <tr><td class="top-header" colspan="2">
+            <h1>{{ source }}</h1>
+            <h3 class="blend-color"><em>{{ info }}</em></h3>
+        </td></tr>
+
+        {% for path in paths %}
+
+        {% if paths[path][(paths[path]|length - 2)|int]['two_kw'] %}
+        <tr class="path-heading"><td colspan="2"><span class="symbols" style="color: {{ paths[path][0]['color_a'] }}">&gt;&gt; </span><span style="color: hsl(0, 0%, 45%)">{{ paths[path][(paths[path]|length - 2)|int]['key_words'][1] }}</span><span class="symbols" style="color: {{ paths[path][0]['color_a'] }}"> &gt;&lt; </span><span style="color: white">{{ paths[path][(paths[path]|length - 1)|int]['key_words'][0] }}</span></td></tr>
+        {% else %}
+        <tr class="path-heading"><td colspan="2"><span class="symbols" style="color: {{ paths[path][0]['color_a'] }}">&gt;&gt; </span><span style="color: hsl(0, 0%, 45%)">{{ paths[path][(paths[path]|length - 2)|int]['key_words'][0] }}</span><span class="symbols" style="color: {{ paths[path][0]['color_a'] }}"> &gt;&lt; </span><span style="color: white">{{ paths[path][(paths[path]|length - 1)|int]['key_words'][0] }}</span></td></tr>
+        {% endif %}
+
+        {% for node in paths[path] %}
+
+        <tr style="background-color: {{ node['color_a'] }}">
+
+            <td style="color: {{ node['color_d'] }}" class="key-words">{{ node['key_words'][0] }}</td>
+
+            {% if node['two_kw'] %}
+            <td rowspan="3" class="synset-info">
+            {% else %}
+            <td rowspan="1" class="synset-info">
+            {% endif %}
+                <p class="pos-words" style="color: {{ node['color_d'] }}"><em style="color: {{ node['color_c'] }}">{{ node['pos'] }}</em> {{ node['other_words'] }}</p>
+                <p class="gloss" style="color: {{ node['color_d'] }}">{{ node['gloss'] }}</p>
+            </td>
+
+        </tr>
+
+        {% if node['two_kw'] %}
+        <tr style="background-color: {{ node['color_a'] }}"><td class="arrows" style="color: {{ node['color_c'] }}"><img class="arrow-img" alt="" src="{{ url_for('static', filename='arrow-down.png') }}"></td></tr>
+        <tr style="background-color: {{ node['color_a'] }}"><td style="color: {{ node['color_d'] }}" class="key-words">{{ node['key_words'][1] }}</td></tr>
+        {% endif %}
+
+        {% if node['pointer_phrase'] != "(end marker)" %}
+        <tr style="background-color: {{ node['color_b'] }}">
+            {% if node['pointer_phrase'] == "which is the opposite of" %}
+            <td class="arrows" style="color: black"><img class="arrow-img" alt="" src="{{ url_for('static', filename='arrow-down.png') }}"></td>
+            <td class="pos-words" style="color: black"><em>{{ node['pointer_phrase'] }}</em></td>
+            {% else %}
+            <td class="arrows" style="color: {{ node['color_c'] }}"><img class="arrow-img" alt="" src="{{ url_for('static', filename='arrow-down.png') }}"></td>
+            <td class="pos-words" style="color: {{ node['color_c'] }}"><em>{{ node['pointer_phrase'] }}</em></td>
+            {% endif %}
+        </tr>
+        {% else %}
+        <tr><td colspan="2" class="synset-info" style="background-color: {{ node['color_a'] }}">
+            {% if paths[path][-2]['two_kw'] %}
+            <p class="connect-links" style="color: {{ node['color_d'] }}">explore paths: <a style="color: {{ paths[path][0]['color_a'] }}" href="{{ url_for('connect_result') }}?source={{ paths[path][-2]['key_words'][1] }}&target={{ node['key_words'][0] }}">{{ paths[path][-2]['key_words'][1] }} >> {{ node['key_words'][0] }}</a> | <a style="color: {{ paths[path][0]['color_a'] }}" href="{{ url_for('connect_result') }}?source={{ paths[path][0]['key_words'][0] }}&target={{ node['key_words'][0] }}">{{ paths[path][0]['key_words'][0] }} >> {{ node['key_words'][0] }}</a></p>
+            {% else %}
+            <p class="connect-links" style="color: {{ node['color_d'] }}">explore paths: <a style="color: {{ paths[path][0]['color_a'] }}" href="{{ url_for('connect_result') }}?source={{ paths[path][-2]['key_words'][0] }}&target={{ node['key_words'][0] }}">{{ paths[path][-2]['key_words'][0] }} >> {{ node['key_words'][0] }}</a> | <a style="color: {{ paths[path][0]['color_a'] }}" href="{{ url_for('connect_result') }}?source={{ paths[path][0]['key_words'][0] }}&target={{ node['key_words'][0] }}">{{ paths[path][0]['key_words'][0] }} >> {{ node['key_words'][0] }}</a></p>
+            {% endif %}
+        </td></tr>
+        {% endif %}
+
+        {% endfor %}
+
+        {% endfor %}
+
+    </table>
+    
+</body>
+
+<script src="{{ url_for('static', filename='menu.js') }}"></script>
+
+</html>

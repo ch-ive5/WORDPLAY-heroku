@@ -1,0 +1,56 @@
+
+group_map[group_id][x]
+x = 0 = tuple of adjacent group ids
+x = 1 = tuple of non-adjacent reachable group ids
+
+
+wordnet_index = {
+    word: (synset_id, synset_id... ),
+    word...
+}
+
+
+synset = (group, pos, gloss, (word, word, ... ), (out_pointer, out_pointer, ... ), (in_pointer, in_pointer, ... ))
+pointer = (type, synset_index, source_word_index, target_word_index)
+(Antonyms, if present, are the first pointers listed.)
+*
+wordnet_data[synset_index][x]
+x = 0 = group_number (int) (Negative group numbers are groups with multiple synsets.
+                            A positive group number is the synset index of the only synset in group.)
+x = 1 = pos (string) (part of speech: noun, verb, adj, adv)
+x = 2 = gloss (string) (May contain additional words, a definition, example sentences, or any combination of these.)
+x = 3 = words (tuple) (Each word in tuple is a string.)
+x = 4 = out_pointers (tuple) (Pointers that lead directly away from synset.)
+x = 5 = in_pointers (tuple) (Pointers that lead directly to synset.)
+*
+pointer[x]
+x = 0 = type (string)
+x = 1 = synset_index (int)
+x = 2 = source_word_index (int) (-1 means all words)
+x = 3 = target_word_index (int) (-1 means all words)
+
+
+INTERMEDIATE SYNSET ID ASSIGNMENT
+synset_id: 'x00000000'  # First character is part of speech.  # Last 8 characters is the wordnet synset number.
+    pos (part of speech): 'n', 'v', 'a', 's', 'r' (noun, verb, adjective, adjective satellite, adverb)
+        # Adjective satellite 's' used by wordnet, but converted to and merged with adjective 'a' in this project.
+
+
+TOTAL NUMBER OF WORDNET WORDS:
+147306
+
+
+TOTAL NUMBER OF WORDNET SYNSETS:
+  adj  18156
+  adv   3621
+ noun  82115
+ verb  13767
+TOTAL 117659
+
+
+SYNSETS WITH AT LEAST ONE ANTONYM:
+  adj 3846 21%
+  adv  630 17%
+ noun 1922  2%
+ verb  996  1%
+TOTAL 7394  6%

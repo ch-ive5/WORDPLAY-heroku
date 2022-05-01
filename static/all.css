@@ -1,0 +1,52 @@
+
+/* Copyright 2021 Johnathan Pennington | All rights reserved. */
+
+
+body {
+    padding-top: 4em;
+    margin: 0;
+    font-family: Futura, "Century Gothic", sans-serif;
+}
+
+#menu-button {
+    z-index: 2;
+    margin: 1em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: hsla(0, 0%, 100%, 40%);
+    cursor: pointer;
+}
+#menu-button:hover {
+    background-color: hsla(0, 0%, 100%, 100%);
+}
+#menu-button img {
+    display: none;
+    height: 2em;
+    margin: 0.8em;
+}
+#menu-bar {
+    z-index: 1;
+    position: fixed;
+    margin: 0 auto;
+    background-color: hsla(0, 0%, 0%, 0%);
+    top: 0;
+    width: 100%;
+}
+div.menu-items {
+    text-align: center;
+}
+.menu-items a {
+    padding: 1em 3em;
+    text-decoration: none;
+    font-weight: bold;
+    display: none;
+    color: hsl(180, 100%, 70%);
+}
+.menu-items a.active-tab {
+    color: hsl(86, 100%, 70%);
+}
+.menu-items a:hover {
+    color: hsl(86, 0%, 0%);
+    background-color: hsl(86, 0%, 100%);
+}
